@@ -1,0 +1,115 @@
+:root {
+  --iconSize: 80px;
+  --borderW: 10px;
+  --bgClr: #f0f0f0;
+  --actClr: cadetblue;
+  --actTextClr: #ffffff;
+}
+.menu {
+  &-box {
+    width: 600px;
+    height: 80px;
+    background: var(--bgClr);
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-around;
+  }
+  &-item {
+    width: 25%;
+    text-align: center;
+    position: relative;
+    z-index: 9;
+    span {
+      display: none;
+    }
+    &.active {
+      .menu-icon {
+        transform: translate(0, -50%);
+        animation: active 1s;
+      }
+      @keyframes active {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(0, -50%);
+        }
+      }
+      span {
+        display: block;
+        color: var(--actTextClr);
+        transform: translate(0, -30px);
+      }
+    }
+    &:nth-child(1).active ~ .menu-indicator {
+      left: 12.5%;
+    }
+    &:nth-child(2).active ~ .menu-indicator {
+      left: 12.5% + 25%;
+    }
+    &:nth-child(3).active ~ .menu-indicator {
+      left: 12.5% + 2 * 25%;
+    }
+    &:nth-child(4).active ~ .menu-indicator {
+      left: 12.5% + 3 * 25%;
+    }
+  }
+  &-icon {
+    width: var(--iconSize);
+    height: var(--iconSize);
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: 50%;
+    margin: 0 auto;
+    &.home {
+      background-image: url("./imgs/home.svg");
+    }
+    &.discover {
+      background-image: url("./imgs/discover.svg");
+    }
+    &.search {
+      background-image: url("./imgs/search.svg");
+    }
+    &.my {
+      background-image: url("./imgs/my.svg");
+    }
+  }
+  &-indicator {
+    width:var(--iconSize);
+    height: var(--iconSize);
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: var(--borderW) solid #ffffff;
+    background-color: var(--actClr);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    &:before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: #f0f0f0;
+      border-top-right-radius: 20px;
+      display: inline-block;
+      position: absolute;
+      left: -27px;
+      bottom: 10px;
+      box-shadow: 0 -10px 0 0 #ffffff;
+    }
+    &:after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: #f0f0f0;
+      border-top-left-radius: 20px;
+      display: inline-block;
+      position: absolute;
+      right: -27px;
+      bottom: 10px;
+      box-shadow: 0 -10px 0 0 #ffffff;
+    }
+  }
+}

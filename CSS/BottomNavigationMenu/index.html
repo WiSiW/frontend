@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BottomNavigationMenu</title>
+    <link rel="stylesheet/less" type="text/css" href="./style.less" />
+    <script src="https://cdn.jsdelivr.net/npm/less@4.1.2/dist/less.min.js" ></script>
+</head>
+<body>
+    <div class="menu-box">
+        <div class="menu-item active" onclick="changeTab(0)">
+            <div class="menu-icon home"></div>
+            <span>首页</span>
+        </div>
+        <div class="menu-item" onclick="changeTab(1)">
+            <div class="menu-icon discover"></div>
+            <span>发现</span>
+        </div>
+        <div class="menu-item" onclick="changeTab(2)">
+            <div class="menu-icon search"></div>
+            <span>探索</span>
+        </div>
+        <div class="menu-item" onclick="changeTab(3)">
+            <div class="menu-icon my"></div>
+            <span>我的</span>
+        </div>
+        <div class="menu-indicator"></div>
+    </div>
+    <script>
+        let current = 0
+        function changeTab(index) {
+            if (index === current) {
+                return
+            }
+            const tabs = document.getElementsByClassName('menu-item')
+            if (!tabs.length) {
+                return
+            }
+            for (let i = 0; i < tabs.length; i++ ) {
+                if (i === index) {
+                    tabs[i].classList.add('active')
+                    setKeyframes(`move${index + 1}`, current, index)
+                    document.getElementsByClassName('menu-indicator')[0].style.animation = `move${index + 1} 1s`
+                }else {
+                    tabs[i].classList.remove('active')
+                }
+            }
+            current = index
+        }
+        function setKeyframes(key_name, current, index) {
+            const token = window.WebKitCSSKeyframesRule ? '-webkit-':'';
+            const nameRule = getKeyframes(key_name);
+            let rules = `
+                @${token}keyframes ${key_name}{
+                  0% {
+                    left: ${12.5 + 25 * current}%
+                  }
+                  100% {
+                    left: ${12.5 + 25 * index}%;
+                  }
+                }
+            `
+            if(JSON.stringify(nameRule) == '{}'){
+                document.styleSheets[0].insertRule(rules,0);
+            }else{
+                nameRule.styleSheet.deleteRule(nameRule.index)
+                nameRule.styleSheet.insertRule(rules,nameRule.index)
+            }
+        }
+        function getKeyframes(name){
+            const animation={}
+            const styleSheets=document.styleSheets
+            for(let i=0;i<styleSheets.length;i++){
+                const item = styleSheets[i];
+                for (let j = 0; j < item.cssRules.length; j ++) {
+                    if(item.cssRules[j] && item.cssRules[j].name && item.cssRules[j].name == name){
+                        animation.cssRule = item.cssRules[j];
+                        animation.styleSheet = item;
+                        animation.index = j;
+                    }
+                }
+            }
+            return animation;
+        }
+    </script>
+</body>
+</html>
