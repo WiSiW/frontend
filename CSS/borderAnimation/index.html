@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Border Animation</title>
+    <style>
+        body {
+            background: #000000;
+        }
+        .border-box {
+            width: 200px;
+            height: 200px;
+            box-shadow: 16px 14px 20px #000000;
+            border-radius: 10px;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .border-box:before {
+            content: '';
+            background-image: conic-gradient(#ff0052 20deg, transparent 120deg);
+            width: 150%;
+            height: 150%;
+            position: absolute;
+            border-radius: 10px;
+            animation: rotate 2s linear infinite;
+        }
+        .border-box:after {
+            content: 'Animation';
+            width: 190px;
+            height: 190px;
+            line-height: 190px;
+            text-align: center;
+            background: #000000;
+            color: red;
+            position: absolute;
+            border-radius: 10px;
+            letter-spacing: 5px;
+            box-shadow: inset 20px 20px 20px #000000;
+        }
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="border-box"></div>
+</body>
+</html>
