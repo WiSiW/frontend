@@ -8,41 +8,49 @@
 </head>
 <body>
     <div class="menu-box">
-        <div class="menu-item active" onclick="changeTab(0)">
-            <div class="menu-icon home"></div>
+        <div class="menu-item active">
+            <i class="menu-icon home"></i>
             <span>首页</span>
         </div>
-        <div class="menu-item" onclick="changeTab(1)">
-            <div class="menu-icon discover"></div>
+        <div class="menu-item">
+            <i class="menu-icon discover"></i>
             <span>发现</span>
         </div>
-        <div class="menu-item" onclick="changeTab(2)">
-            <div class="menu-icon search"></div>
+        <div class="menu-item">
+            <i class="menu-icon search"></i>
             <span>探索</span>
         </div>
-        <div class="menu-item" onclick="changeTab(3)">
-            <div class="menu-icon my"></div>
+        <div class="menu-item">
+            <i class="menu-icon my"></i>
             <span>我的</span>
         </div>
         <div class="menu-indicator"></div>
     </div>
     <script>
         let current = 0
+        const menus = document.getElementsByClassName('menu-item')
+        for (let i = 0; i < menus.length; i++) {
+            const menu = menus[i]
+            menu.addEventListener('click', e => {
+                e.preventDefault()
+                changeTab(i)
+            })
+        }
         function changeTab(index) {
             if (index === current) {
                 return
             }
-            const tabs = document.getElementsByClassName('menu-item')
-            if (!tabs.length) {
+            const menus = document.getElementsByClassName('menu-item')
+            if (!menus.length) {
                 return
             }
-            for (let i = 0; i < tabs.length; i++ ) {
+            for (let i = 0; i < menus.length; i++ ) {
                 if (i === index) {
-                    tabs[i].classList.add('active')
+                    menus[i].classList.add('active')
                     setKeyframes(`move${index + 1}`, current, index)
                     document.getElementsByClassName('menu-indicator')[0].style.animation = `move${index + 1} 1s`
                 }else {
-                    tabs[i].classList.remove('active')
+                    menus[i].classList.remove('active')
                 }
             }
             current = index
