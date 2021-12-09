@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <style>
+            .sign-box {
+                width: 200px;
+            }
+            .sign-box .sign-img {
+                width: 100%;
+                height: 100px;
+            }
+            .sign-box .btn-box>p {
+                width: 60px;
+                height: 20px;
+                line-height: 20px;
+                text-align: center;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sign-box">
+            <div class="sign-img" id="canvas">
+            </div>
+            <div class="btn-box">
+                <p id="btn-clear">清空</p>
+                <p id="btn-sub">确定</p>
+            </div>
+            <img class="sign-img" id="img">
+        </div>
+        <script>
+            let cxt = null;
+            const lineStyle = {
+                lineWidth: 2,
+                strokeStyle: '#000000',
+                fillStyle: '#f7f7f7',
+                lineCap: 'round'
+            }
+            const canvasEl = document.getElementById("canvas")
+            const clearBtn = document.getElementById("btn-clear")
+            const subBtn = document.getElementById("btn-sub")
+            window.addEventListener('touchmove', function(e) {
+                e.preventDefault()
+            }, { passive: false });
+            lineCanvas({canvasEl, clearBtn, subBtn})
+            // 移动绘制
+            function lineCanvas({ canvasEl, clearBtn, subBtn }) {
+                const canvas = document.createElement("canvas");
+                canvas.width = canvasEl.clientWidth;
+                canvas.height = canvasEl.clientHeight;
+                canvasEl.appendChild(canvas);
+                cxt = canvas.getContext("2d");
+                console.log(cxt)
+                Object.keys(lineStyle).forEach(key => {
+                    cxt[key] = lineStyle[key];
+                })
+                cxt.fillRect(0, 0, canvas.width, canvas.height)
+                IsPC() ? addMoveEvents(canvas) : addTouchEvents(canvas)
+                // 清空画布
+                clearBtn && clearBtn.addEventListener("click", function() {
+                    console.log("清空画布...");
+                    cxt.clearRect(0, 0, canvas.width, canvas.height);
+                    document.getElementById("img").src = '';
+                })
+                // 保存图片
+                subBtn && subBtn.addEventListener("click", function(e) {
+                    console.log("保存图片...");
+                    if(!signImg) {
+                        alert("请签名")
+                        return
+                    }
+                    // do somthing
+                })
+            }
+            // 鼠标绘制
+            function addMoveEvents(canvas) {
+                // 鼠标按下事件
+                const mousedown = function(e) {
+                    console.log("开始绘制...");
+                    cxt.beginPath();
+                    cxt.moveTo(e.pageX, e.pageY);
+                    // 绘制中
+                    canvas.addEventListener("mousemove", mousemove, false)
+                }
+                // 鼠标按下移动绘制事件
+                const mousemove = function(e) {
+                    console.log("绘制中...");
+                    cxt.lineTo(e.pageX, e.pageY);
+                    cxt.stroke();
+                }
+                // 鼠标松开事件
+                const mouseup = function(e) {
+                    console.log("结束绘制...");
+                    canvas.removeEventListener("mousemove", mousemove)
+                    cxt.closePath();
+                    signImg = canvas.toDataURL();
+                    console.log(signImg)
+                    document.getElementById("img").src = signImg
+                }
+                // 监听绘制开始
+                canvas.addEventListener("mousedown", mousedown, false)
+                // 结束绘制
+                canvas.addEventListener("mouseup", mouseup, false)
+                // 鼠标移除画板后取消绘制时间
+                canvas.addEventListener("mouseout", function(e) {
+                    console.log("鼠标移除画板");
+                    canvas.removeEventListener("mousemove", mousemove)
+                })
+            }
+            // 触摸绘制
+            function addTouchEvents(canvas) {
+                // 手指点下开始事件
+                const touchstart = function(e) {
+                    console.log("开始绘制...");
+                    cxt.beginPath();
+                    cxt.moveTo(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+                }
+                // 触摸移动绘制事件
+                const touchmove = function(e) {
+                    console.log("绘制中...");
+                    cxt.lineTo(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+                    cxt.stroke();
+                }
+                // 手指移开事件
+                const touchend = function(e) {
+                    console.log("结束绘制...");
+                    cxt.closePath();
+                    signImg = canvas.toDataURL();
+                    console.log(signImg)
+                    document.getElementById("img").src = signImg
+                }
+                // 监听绘制开始
+                canvas.addEventListener("touchstart", touchstart, false)
+                // 绘制中
+                canvas.addEventListener("touchmove", touchmove, false)
+                // 结束绘制
+                canvas.addEventListener("touchend", touchend, false)
+            }
+            function IsPC() {
+                var userAgentInfo = navigator.userAgent;
+                var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+                var flag = true;
+                for (var v = 0; v < Agents.length; v++) {
+                    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                        flag = false;
+                        break;
+                    }
+                }
+                return flag;
+            }
+        </script>
+    </body>
+</html>
