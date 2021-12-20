@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doughnut Animation</title>
+    <style>
+        .svg-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .svg-circle circle{
+            fill: none;
+        }
+        .svg-circle .circle1{
+            stroke-width: 20px;
+            stroke-dashoffset: 0;
+            stroke: #181818;
+        }
+        .svg-circle .circle2{
+            stroke: url(#GradientColor);
+            stroke-width: 20px;
+            stroke-dasharray: 472;
+            stroke-dashoffset: 472;
+            animation: circle 2s linear forwards;
+        }
+        @keyframes circle {
+            100% {
+                stroke-dashoffset: 165;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px" class="svg-circle">
+            <defs>
+                <linearGradient id="GradientColor">
+                    <stop offset="0%" stop-color="#ff0032"></stop>
+                    <stop offset="100%" stop-color="#ff8c00"></stop>
+                </linearGradient>
+            </defs>
+            <circle r="70" cx="80" cy="80" stroke-linecap="round" class="circle1"></circle>
+            <circle r="70" cx="80" cy="80" stroke-linecap="round" class="circle2"></circle>
+        </svg>
+    </div>
+</body>
+</html>
