@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ExcelToCharts</title>
+    <script src="./xlsx.full.min.js"></script>
+    <script src="./echarts.common.min.js"></script>
+    <script src="./File.js"></script>
+</head>
+<body>
+<button id="readExcel">读取Excel</button>
+<div id="data" style="width: 300px;height: 300px;"></div>
+<script>
+    document.getElementById('readExcel').addEventListener('click', function() {
+        XLSXRender({}, "*.xlsx;", 500, function (data) {
+            if (!data) return;
+            const source = [];
+            const a = {};
+            for(let i in data){
+                for(let key in data[i]) {
+                    if(!a[key])a[key] = [key]
+                    a[key].push(data[i][key])
+                }
+            }
+            for(let i in a){
+                source.push(a[i])
+            }
+            initData(source)
+        })
+    })
+
+    function XLSXRender(data, accept, maxSize, callBack, maxCount) {
+        File.upload({
+            multi: true,
+            accept: accept,
+            uploadType: "local",
+            before: function (files) {},
+            after: function (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {type: 'binary'});
+                    var sheetNames = workbook.SheetNames; // 工作表名称集合
+                    var worksheet = workbook.Sheets[sheetNames[0]]; // 这里我们只读取第一张sheet
+                    callBack && callBack(XLSX.utils.sheet_to_json(worksheet));
+                };
+                reader.readAsBinaryString(file);
+            },
+            error: function () {},
+            progress: function () {}
+        });
+    }
+
+    function initData(source){
+        const option = {
+            legend: {},
+            tooltip: {},
+            dataset: {
+                source: source
+            },
+            xAxis: {type: 'category'},
+            yAxis: {},
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+        }
+
+        let _data = document.getElementById("data");
+
+        if (!_data) {
+            _data.setOption(option)
+            return;
+        }
+        _data = echarts.init(_data)
+
+        _data.setOption(option)
+    }
+</script>
+</body>
+</html>

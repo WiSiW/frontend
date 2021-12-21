@@ -7,6 +7,7 @@ mixins
   |     ├─ borderAnimation（底部菜单栏）
   |     ├─ doughnutAnimation（圈饼动画）
   |     └─ scrollerBars（滚动条样式）
+  ├── ExcelToCharts（读取Excel生成Echarts图标）
   ├── single（无框架实现前端路由）
   └── webpackEx（webpack打包原理）
 ```
