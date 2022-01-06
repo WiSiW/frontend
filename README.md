@@ -9,6 +9,7 @@ mixins
   |     ├─ doughnutAnimation（圈饼动画）
   |     ├─ loadingAnimation（loading动画）
   |     ├─ notes（笔记本样式）
+  |     ├─ ribbonShape（页面条带样式）
   |     ├─ scrollerBars（滚动条样式）
   |     └─ textAnimation（文字霓虹灯效果）
   ├── ExcelToCharts（读取Excel生成Echarts图标）
