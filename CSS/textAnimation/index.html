@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TextAnimation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #000000;
+        }
+        .text-effect {
+            overflow: hidden;
+            position: relative;
+            filter: contrast(110%) brightness(190%);
+        }
+
+        .neon {
+            position: relative;
+            background: #000000;
+            color: transparent;
+            font: 700 220px "Lato", sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 0;
+        }
+        .neon:focus {
+            outline: none;
+            border: 1px dotted #ffffff;
+        }
+        .neon::before,
+        .neon::after {
+            content: attr(data-text);
+            color: #ffffff;
+            filter: blur(0.02em);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .neon::after {
+            mix-blend-mode: difference;
+        }
+        .gradient,.spotlight {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .gradient {
+            background: linear-gradient(45deg, #ff0a59, blue);
+            mix-blend-mode: multiply;
+        }
+        .spotlight {
+            animation: lights 5s infinite linear;
+            background: radial-gradient(circle, #ffffff, transparent 25%) 0 0/25% 25%, radial-gradient(circle, #ffffff, #000000 25%);
+            top: -100%;
+            left: -100%;
+            mix-blend-mode: color-dodge;
+        }
+        @keyframes lights {
+            100% {
+                transform: translate3d(50%, 50%, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-effect">
+        <div class="neon" data-text="Animation">Animation</div>
+        <div class="gradient"></div>
+        <div class="spotlight"></div>
+    </div>
+</body>
