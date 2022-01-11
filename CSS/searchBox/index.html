@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SearchBox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #cfd1e1;
+        }
+        .shadow {
+            position: absolute;
+            top: 0;
+            left: -50px;
+            width: calc(100% + 50px);
+            height: 300px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1),
+                        transparent, transparent);
+            transform-origin: top;
+            transform: skew(45deg);
+            pointer-events: none;
+        }
+        .shadow::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #cfd1e1;
+            z-index: 1;
+        }
+        .searchBox {
+            position: relative;
+            width: 65px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.5s;
+        }
+        .searchBox:hover {
+            width: 400px;
+        }
+        .searchBox::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 100%;
+            background: linear-gradient(#fff, #fff, #e3e3e3);
+            z-index: 1;
+            filter: blur(1px);
+        }
+        .searchBox::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 100%;
+            background: #9d9d9d;
+            z-index: 1;
+            filter: blur(1px);
+        }
+        .searchBox input {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 10px 25px;
+            outline: none;
+            font-size: 1.1em;
+            color: #555;
+            background: linear-gradient(#dbdae1, #a3aaba);
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1),
+                        15px 15px 15px rgba(0, 0, 0, 0.1),
+                        20px 20px 15px rgba(0, 0, 0, 0.1),
+                        30px 30px 15px rgba(0, 0, 0, 0.1),
+                        inset 1px 1px 2px #fff;
+        }
+        .searchBox input,
+        .searchBox input::placeholder {
+            color: transparent;
+        }
+        .searchBox:hover input,
+        .searchBox:hover input::placeholder {
+            color: #555;
+        }
+        .searchBox svg {
+            position: absolute;
+            right: 15px;
+            font-size: 1.5em;
+        }
+        .searchBox svg path {
+            fill: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="searchBox">
+        <div class="shadow"></div>
+        <input type="text" placeholder="Search Anything You Want...">
+        <svg t="1641834083803" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2359" width="32" height="32">
+            <path d="M947.403484 889.47719 739.332589 681.406295c23.302729-28.866445 42.130539-60.786435 56.137555-95.327112 18.479887-45.568848 27.849278-93.707219 27.849278-143.078673 0-49.371454-9.369392-97.509824-27.849278-143.077649-19.139919-47.199998-47.244001-89.531106-83.532485-125.81959s-78.619592-64.392566-125.81959-83.532485c-45.567825-18.478863-93.706195-27.848255-143.077649-27.848255s-97.509824 9.369392-143.078673 27.848255c-47.199998 19.139919-89.531106 47.244001-125.81959 83.532485-36.288484 36.288484-64.392566 78.620615-83.532485 125.81959-18.478863 45.568848-27.848255 93.707219-27.848255 143.077649 0 49.371454 9.369392 97.509824 27.848255 143.078673 19.139919 47.198975 47.244001 89.530083 83.532485 125.818567 36.287461 36.288484 78.619592 64.393589 125.81959 83.532485 45.568848 18.479887 93.707219 27.849278 143.078673 27.849278s97.509824-9.369392 143.077649-27.849278c34.541701-14.005992 66.461691-32.833803 95.328136-56.137555l208.070896 208.070896c7.993045 7.993045 18.467607 11.989055 28.943193 11.989055s20.951171-3.996011 28.943193-11.989055C963.388551 931.378509 963.388551 905.462257 947.403484 889.47719zM443.039395 741.415017c-79.709413 0-154.647149-31.04097-211.010855-87.403652-56.362682-56.362682-87.403652-131.301442-87.403652-211.010855 0-79.709413 31.039947-154.647149 87.403652-211.010855 56.363705-56.362682 131.301442-87.403652 211.010855-87.403652 79.709413 0 154.648173 31.039947 211.010855 87.403652 56.362682 56.363705 87.403652 131.301442 87.403652 211.010855 0 79.709413-31.04097 154.648173-87.403652 211.010855S522.748808 741.415017 443.039395 741.415017z" p-id="2360"></path>
+        </svg>
+    </div>
+</body>
+</html>
