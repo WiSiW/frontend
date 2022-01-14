@@ -5,6 +5,7 @@ mixins
   ├── CSS（CSS样式）
   |     ├─ 3DTextAnimation（3D文字滚动样式）
   |     ├─ bottomNavigationMenu（底部菜单栏）
+  |     ├─ checkBox（开关）
   |     ├─ borderAnimation（底部菜单栏）
   |     ├─ doughnutAnimation（圈饼动画）
   |     ├─ loadingAnimation（loading动画）
