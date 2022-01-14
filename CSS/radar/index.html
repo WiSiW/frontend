@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #cfd1e1;
+    }
+    .r-box {
+      width: 500px;
+      height: 500px;
+      background: rgba(21, 42, 50, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .r-box .r-box-border {
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+      border: 1px solid rgba(67, 185, 242, 0.5);
+      position: absolute;
+    }
+    .r-box .r-box-border span {
+      border: 1px solid rgba(67, 185, 242, 0.5);
+      position: absolute;
+    }
+    .r-box .r-box-border-top {
+      height: 3px;
+      top: 0;
+      left: calc(10% * var(--i));
+    }
+    .r-box .r-box-border-right {
+      width: 3px;
+      right: 0;
+      top: calc(10% * var(--i));
+    }
+    .r-box .r-box-border-bottom {
+      height: 3px;
+      bottom: 0;
+      left: calc(10% * var(--i));
+    }
+    .r-box .r-box-border-left {
+      width: 3px;
+      left: 0;
+      top: calc(10% * var(--i));
+    }
+    .r-wrapper {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      text-align: center;
+    }
+    .m-center {
+      display: inline-block;
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .r-divison {
+      width: calc(400px - var(--i) * 28px);
+      height: calc(400px - var(--i) * 28px);
+      border: 2px solid rgba(67, 185, 242, 0.5);
+      border-radius: 50%;
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .r-line {
+      width: 100%;
+      height: 2px;
+      background: rgba(67, 185, 242, 0.5);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(calc(-6deg * var(--i)));
+      font-size: 12px;
+    }
+    .r-line .r-line-deg {
+      color: rgba(48, 103, 188, 1);
+      position: absolute;
+      right: -5px;
+      transform: translate(100%, -50%) rotate(calc(6deg * var(--i))) scale(0.8);
+    }
+    .m-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 90px;
+      overflow: hidden;
+    }
+    .m-circle-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0), #6699ff);
+      background: -moz-linear-gradient(top, rgba(255, 255, 255, 0), #6699ff);
+      background: linear-gradient(to top, rgba(255, 255, 255, 0), #6699ff);
+      -webkit-animation: scanning 5s infinite;
+      animation: scanning 5s infinite;
+      -webkit-animation-timing-function: linear;
+      animation-timing-function: linear;
+      -webkit-transform-origin: center right;
+      transform-origin: center right;
+      border-top-left-radius: 90px;
+      border-bottom-left-radius: 90px;
+    }
+    .m-circle-loading-radius {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: #6699ff;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      -webkit-transform: translateX(5px);
+      transform: translateX(5px);
+    }
+    .r-radar {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 50%;
+      border-right: 2px solid #ffffff;
+      background-image: linear-gradient(
+        44deg,
+        rgba(64,158,255,0.1) 50%,
+        rgba(64,158,255,0.5) 100%
+      );
+      animation: scanning 5s infinite;
+      animation-timing-function: linear;
+      transform-origin: bottom right;
+      border-radius: 100% 0 0 0;
+    }
+    .r-point {
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#6cc3fe),
+        to(#21a1d0)
+      );
+      -webkit-animation-timing-function: ease-in-out;
+      -webkit-animation-name: breathe;
+      -webkit-animation-duration: 2700ms;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-direction: alternate;
+    }
+    @-webkit-keyframes twinkle {
+      0% {
+        opacity: 0.2;
+        box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+      }
+      100% {
+        opacity: 1;
+        border: 1px solid rgba(59, 235, 235, 1);
+        box-shadow: 0 1px 30px rgba(59, 255, 255, 1);
+      }
+    }
+    @keyframes twinkle {
+      0% {
+        opacity: 0.2;
+        box-shadow: 0 1px 2px rgba(255, 255, 255, 0.1);
+      }
+      100% {
+        opacity: 1;
+        border: 1px solid rgba(59, 235, 235, 1);
+        box-shadow: 0 1px 30px rgba(59, 255, 255, 1);
+      }
+    }
+    @-webkit-keyframes scanning {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes scanning {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="r-box"></div>
+  <script>
+    let θ = 0
+    const pointList = []
+    while(θ <= 360) {
+      pointList.push({ ρ: 144, θ})
+      θ += 15
+    }
+    init()
+    function init() {
+      createBg()
+    }
+    function createBg () {
+      let main = document.getElementsByClassName('r-box')
+      if (!main || !main.length) {
+        return
+      }
+      main = main[0]
+      const content = document.createElement('div')
+      content.classList = 'r-wrapper'
+
+      // 绘制背景
+      const border = document.createElement('div')
+      border.classList = 'r-box-border'
+      createTips(border, 'top')
+      createTips(border, 'right')
+      createTips(border, 'bottom')
+      createTips(border, 'left')
+      main.appendChild(border)
+
+      // 绘制极径
+      for (let i = 0 ; i < 13; i++) {
+        const divison = document.createElement('span')
+        divison.classList = 'r-divison'
+        divison.style = `--i:${i}`
+        content.appendChild(divison)
+      }
+
+      // 绘制极轴
+      for (let i = 0; i < 60; i++) {
+        const line = document.createElement('span')
+        line.classList = 'r-line'
+        line.style = `--i:${i}`
+        const deg = document.createElement('span')
+        deg.classList = 'r-line-deg'
+        deg.innerText = 6 * i
+        line.appendChild(deg)
+        content.appendChild(line)
+      }
+
+      // 绘制雷达
+      const radar = document.createElement('div')
+      radar.classList = 'r-radar'
+      content.appendChild(radar)
+      // 创建坐标点，大小默认为5px
+      createPoints(content)
+      main.appendChild(content)
+    }
+    // 创建边框
+    function createTips(parent, dire) {
+      for (let i = 0; i < 9; i++) {
+        const tip = document.createElement('span')
+        tip.classList = `r-box-border-${dire}`
+        tip.style = `--i:${i + 1}`
+        parent.appendChild(tip)
+      }
+    }
+
+    // 创建坐标点，大小默认为5px
+    function createPoints(parent, size=5) {
+      const width = 395
+      const height = 395
+      for(let i = 0; i < pointList.length; i++) {
+        const item = pointList[i]
+        const point = document.createElement('div')
+        point.classList = 'r-point'
+        point.style.width = `${size}px`
+        point.style.height = `${size}px`
+        let x = Math.cos(item.θ * Math.PI / 180) * item.ρ
+        let y = Math.sin(item.θ * Math.PI / 180) * item.ρ
+        if (item.θ >= 0 < 90) {
+          x = x - size / 2
+          y = -y - size / 2
+        } else if (item.θ >= 90 < 180) {
+          x = x - size / 2
+          y = -y - size / 2
+        }else if (item.θ >= 180 < 270) {
+          x = x - size / 2
+          y = y + size / 2
+        }else if (item.θ >= 270 < 180) {
+          x = x - size / 2
+          y = y + size / 2
+        }
+        point.style.transform = `translate(${x}px, ${y}px)`
+        parent.appendChild(point)
+      }
+    }
+  </script>
+</body>
+</html>
