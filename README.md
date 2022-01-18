@@ -17,6 +17,7 @@ mixins
   |     ├─ textAnimation（文字霓虹灯效果）
   |     └─ zigZagBorder（锯齿边缘）
   ├── ExcelToCharts（读取Excel生成Echarts图标）
+  ├── label（自定义标签）
   ├── single（无框架实现前端路由）
   └── webpackEx（webpack打包原理）
 ```

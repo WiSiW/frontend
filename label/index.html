@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义标签页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f8f8f8;
+        }
+        .label-box{
+            float: left;
+        }
+        .label-box .add-label{
+            height: 30px;
+            line-height: 30px;
+            color: #ffffff;
+            background-color: #265a88;
+            float: right;
+            padding: 0 10px;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .label-box .label-group {
+            position: relative;
+            margin-right: 20px;
+            display: inline-block;
+            border-radius: 4px;
+        }
+        .label-box .label-group span{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background: #f0f0f0;
+            font-size: 12px;
+            font-weight: 400;
+            display: inline-block;
+            border-radius: 50%;
+            border: 1px solid #000000;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+        .label-box .label-group .label{
+            height: 30px;
+            line-height: 30px;
+            font-size: 12px;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 0 10px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="label-box">
+        <button class="add-label" onclick="addLabels(false)">添加标签</button>
+    </div>
+    <script>
+        var i = 0;
+        function addLabels(boolean){
+            if(i>1 && (document.getElementById("label"+(i)).innerHTML).trim().length < 1){
+                return;
+            }
+            i++;
+            const label = document.createElement("div")
+            label.id = 'div' + i;
+            label.classList = "label-group"
+            const input = document.createElement("div")
+            input.classList = "label"
+            input.setAttribute('contenteditable', true)
+            input.id = 'label' + i
+            input.addEventListener('onchange', function () {
+                addLabels(true)
+            })
+            input.addEventListener("keyup", function() {
+                followToChange(i)
+            })
+            const rm = document.createElement("span");
+            rm.addEventListener("click", function() {
+                this.parentElement.remove();
+            })
+            rm.innerHTML = "X"
+            label.appendChild(input)
+            label.appendChild(rm)
+            let parent = document.getElementsByClassName("label-box")
+            if (!parent || !parent.length) {
+                return;
+            }
+            parent = parent[0]
+            parent.appendChild(label)
+            document.getElementById("label"+ i).focus();
+        }
+
+        function remove (id) {
+            document.getElementById("div" + id).remove()
+        }
+        function followToChange (id) {
+            if(event.keyCode === 13){
+                const label = document.getElementById('label' + id)
+                label.innerText = label.innerHTML.replace(/<div><br><\/div>/g,"")
+                if(!label.innerText.trim().length) {
+                    alert("标签不能为空")
+                    return
+                }
+                label.setAttribute("contenteditable", false)
+                addLabels(true)
+            }
+        }
+    </script>
+</body>
+</html>
