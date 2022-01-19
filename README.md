@@ -10,6 +10,7 @@ mixins
   |     ├─ doughnutAnimation（圈饼动画）
   |     ├─ loadingAnimation（loading动画）
   |     ├─ notes（笔记本样式）
+  |     ├─ postCard（信封）
   |     ├─ radar（雷达图）
   |     ├─ ribbonShape（页面条带样式）
   |     ├─ searchBox（搜索框）
